@@ -11,8 +11,8 @@ import com.ctrip.framework.apollo.portal.spi.ctrip.CtripUserInfoHolder;
 import com.ctrip.framework.apollo.portal.spi.ctrip.CtripUserService;
 import com.ctrip.framework.apollo.portal.spi.defaultimpl.DefaultLogoutHandler;
 import com.ctrip.framework.apollo.portal.spi.defaultimpl.DefaultSsoHeartbeatHandler;
-import com.ctrip.framework.apollo.portal.spi.defaultimpl.DefaultUserInfoHolder;
-import com.ctrip.framework.apollo.portal.spi.defaultimpl.DefaultUserService;
+import com.ctrip.framework.apollo.portal.spi.sagreen.SagreenUserInfoHolder;
+import com.ctrip.framework.apollo.portal.spi.sagreen.SagreenUserService;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -183,8 +183,8 @@ public class AuthConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(UserInfoHolder.class)
-    public DefaultUserInfoHolder notCtripUserInfoHolder() {
-      return new DefaultUserInfoHolder();
+    public SagreenUserInfoHolder notCtripUserInfoHolder() {
+      return new SagreenUserInfoHolder();
     }
 
     @Bean
@@ -196,7 +196,7 @@ public class AuthConfiguration {
     @Bean
     @ConditionalOnMissingBean(UserService.class)
     public UserService defaultUserService() {
-      return new DefaultUserService();
+      return new SagreenUserService();
     }
   }
 

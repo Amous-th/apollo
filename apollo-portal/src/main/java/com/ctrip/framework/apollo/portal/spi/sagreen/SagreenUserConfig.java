@@ -12,13 +12,29 @@ import java.util.Map;
 @ConfigurationProperties(prefix="sagreen")
 public class SagreenUserConfig {
 
-    private Map<String, Object> user = new HashMap<String, Object>();
+    private String key = "jw%9h@7M%NF*OEVv";
+    private String ivParameter ="6v&d3OtxqrZVAw!9";
 
-    public Map<String, Object> getUser() {
+    private Map<String, String> user = new HashMap<String, String>();
+
+    public Map<String, String> getUser() {
         return user;
     }
 
-    public void setUser(Map<String, Object> user) {
+    public String getPassword(String name) {
+        return user.get(name);
+    }
+
+    public void setUser(Map<String, String> user) {
         this.user = user;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getIvParameter() {
+        return ivParameter;
+    }
+
 }
