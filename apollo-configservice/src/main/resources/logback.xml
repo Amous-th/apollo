@@ -4,7 +4,7 @@
 	<property name="LOG_FILE"
 		value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}/}apollo-configservice.log}" />
 	<include resource="org/springframework/boot/logging/logback/file-appender.xml" />
-	<root level="INFO">
+	<root level="DEBUG">
 		<appender-ref ref="FILE" />
 	</root>
 </configuration>
