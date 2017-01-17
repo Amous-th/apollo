@@ -37,18 +37,18 @@ public class SagreenAuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws
             IOException, ServletException {
-        LOGGER.info("SagreenAuthenticationFilter doFilter ...");
+        LOGGER.debug("SagreenAuthenticationFilter doFilter ...");
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
-        String user = CookieUtils.getCookieValue(request,"sys_user");
         String uri = request.getRequestURI();
 
         if(isStaticResource(uri)){
             chain.doFilter(req, resp);
             return;
         }
+        String user = CookieUtils.getCookieValue(request,"sys_user");
         if(StringUtils.isBlank(user) && uri.equals(LOGIN_URL)){
             chain.doFilter(req, resp);
             return;
@@ -79,7 +79,7 @@ public class SagreenAuthenticationFilter implements Filter {
 
     @Override
     public void destroy() {
-        LOGGER.info("SagreenAuthenticationFilter destroy...");
+        LOGGER.debug("SagreenAuthenticationFilter destroy...");
     }
 
     private boolean isStaticResource(String uri) {

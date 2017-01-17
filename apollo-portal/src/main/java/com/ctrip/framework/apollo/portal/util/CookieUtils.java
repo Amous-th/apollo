@@ -1,5 +1,7 @@
 package com.ctrip.framework.apollo.portal.util;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +13,9 @@ public class CookieUtils {
         String key = "test";
         String ivParameter = "test";
         Cookie[] cookie = request.getCookies();
+        if(ArrayUtils.isEmpty(cookie)){
+            return null;
+        }
         for (Cookie cook : cookie) {
             String cookName = cook.getName();
             if (cookName.equalsIgnoreCase(cookieKey)) {
