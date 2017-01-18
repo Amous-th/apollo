@@ -285,6 +285,24 @@ VALUES
     ('api.readTimeout', '10000', 'http接口read timeout'),
     ('consumer.token.salt', 'someSalt', 'consumer token salt');
 
+# Dump of table User
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `User`;
+CREATE TABLE `User` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `DataChange_CreatedBy` varchar(255) NOT NULL,
+  `DataChange_CreatedTime` datetime NOT NULL,
+  `DataChange_LastModifiedBy` varchar(255) DEFAULT NULL,
+  `DataChange_LastTime` datetime DEFAULT NULL,
+  `IsDeleted` bit(1) DEFAULT b'0',
+  `Email` varchar(255) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `UserName` varchar(255) NOT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `IX_UserName` (`UserName`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
