@@ -1,7 +1,6 @@
 package com.ctrip.framework.apollo.portal.spi.configuration;
 
 import com.ctrip.framework.apollo.openapi.filter.ConsumerAuthenticationFilter;
-import com.ctrip.framework.apollo.openapi.filter.SagreenAuthenticationFilter;
 import com.ctrip.framework.apollo.openapi.util.ConsumerAuditUtil;
 import com.ctrip.framework.apollo.openapi.util.ConsumerAuthUtil;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
@@ -21,16 +20,5 @@ public class AuthFilterConfiguration {
 
     return openApiFilter;
   }
-
-  @Bean
-  public FilterRegistrationBean sagreenAuthenticationFilter() {
-    FilterRegistrationBean openApiFilter = new FilterRegistrationBean();
-
-    openApiFilter.setFilter(new SagreenAuthenticationFilter());
-    openApiFilter.addUrlPatterns("/*");
-
-    return openApiFilter;
-  }
-
 
 }

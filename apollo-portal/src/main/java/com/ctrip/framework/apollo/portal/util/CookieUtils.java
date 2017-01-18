@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class CookieUtils {
 
+    private static final ThreadLocal<String> LOCAL_USERNAME = new ThreadLocal<>();
+
     public static String getCookieValue(HttpServletRequest request,String cookieKey) {
         String value = null;
         String key = "test";
@@ -25,6 +27,14 @@ public class CookieUtils {
             }
         }
         return value;
+    }
+
+    public static String getLocalUserName() {
+        return LOCAL_USERNAME.get();
+    }
+
+    public static void setLocalUserName(String userName) {
+        LOCAL_USERNAME.set(userName);
     }
 
 }

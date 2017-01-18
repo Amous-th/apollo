@@ -1,6 +1,8 @@
-package com.ctrip.framework.apollo.openapi.filter;
+package com.ctrip.framework.apollo.portal.spi.ctrip.filters;
 
 import com.ctrip.framework.apollo.core.utils.StringUtils;
+import com.ctrip.framework.apollo.portal.entity.po.User;
+import com.ctrip.framework.apollo.portal.service.ProtalUserService;
 import com.ctrip.framework.apollo.portal.spi.sagreen.SagreenUserConfig;
 import com.ctrip.framework.apollo.portal.util.AESCryptUtils;
 import com.ctrip.framework.apollo.portal.util.CookieUtils;
@@ -23,6 +25,8 @@ public class SagreenAuthenticationFilter implements Filter {
 
     private SagreenUserConfig sagreenUserConfig ;
 
+    private ProtalUserService protalUserService;
+
     public SagreenAuthenticationFilter(){
     }
 
@@ -32,6 +36,7 @@ public class SagreenAuthenticationFilter implements Filter {
         WebApplicationContext springContext =
                 WebApplicationContextUtils.getWebApplicationContext(filterConfig.getServletContext());
         sagreenUserConfig = springContext.getBean(SagreenUserConfig.class);
+        protalUserService = springContext.getBean(ProtalUserService.class);
     }
 
     @Override
@@ -48,19 +53,19 @@ public class SagreenAuthenticationFilter implements Filter {
             chain.doFilter(req, resp);
             return;
         }
-        String user = CookieUtils.getCookieValue(request,"sys_user");
-        if(StringUtils.isBlank(user) && uri.equals(LOGIN_URL)){
+        String sysUser = CookieUtils.getCookieValue(request,"sys_user");
+        if(StringUtils.isBlank(sysUser) && uri.equals(LOGIN_URL)){
             chain.doFilter(req, resp);
             return;
         }
 
-        if(StringUtils.isBlank(user) && !uri.equals(LOGIN_URL)){
+        if(StringUtils.isBlank(sysUser) && !uri.equals(LOGIN_URL)){
             request.getRequestDispatcher("/login/login.html").forward(request, response);
             return;
         }
 
         String decrypted = AESCryptUtils.decrypt(sagreenUserConfig.getKey(), sagreenUserConfig
-                .getIvParameter(), user);
+                .getIvParameter(), sysUser);
         if (StringUtils.isBlank(decrypted)) {
             response.getOutputStream().print("error request..");
             return;
@@ -69,11 +74,20 @@ public class SagreenAuthenticationFilter implements Filter {
         String[] up = decrypted.split("[|]");
         String userName = up[0];
         String password = up[1];
-        if(!password.equals(sagreenUserConfig.getPassword(userName))){
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
             response.getOutputStream().print("error request..");
             return;
         }
-
+        User user = protalUserService.findByUserName(userName);
+        if(null == user){
+            response.getOutputStream().print("error request..");
+            return;
+        }
+        if(!password.equals(user.getPassword())){
+            response.getOutputStream().print("error request..");
+            return;
+        }
+        CookieUtils.setLocalUserName(userName);
         chain.doFilter(req, resp);
     }
 

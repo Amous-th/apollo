@@ -18,9 +18,5 @@ management:
     enabled: false
   health:
     status:
-      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP 
+      order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 
-sagreen:
-  user:
-    hong.tian: test
-    hong1.tian: value2
