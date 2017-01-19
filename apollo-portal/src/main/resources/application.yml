@@ -20,3 +20,6 @@ management:
     status:
       order: DOWN, OUT_OF_SERVICE, UNKNOWN, UP
 
+sagreen:
+  key: jw%9h@7M%NF*OEVv
+  ivParameter: 6v&d3OtxqrZVAw!9

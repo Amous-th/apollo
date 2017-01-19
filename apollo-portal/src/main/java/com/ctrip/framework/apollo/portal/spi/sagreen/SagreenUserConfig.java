@@ -9,16 +9,23 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix="sagreen")
 public class SagreenUserConfig {
 
-    private String key = "jw%9h@7M%NF*OEVv";
-    private String ivParameter ="6v&d3OtxqrZVAw!9";
+    private String key ;
+    private String ivParameter ;
 
 
     public String getKey() {
         return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getIvParameter() {
         return ivParameter;
     }
 
+    public void setIvParameter(String ivParameter) {
+        this.ivParameter = ivParameter;
+    }
 }
