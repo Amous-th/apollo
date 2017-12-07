@@ -29,10 +29,8 @@ public class PortalConfig extends RefreshableConfig {
   private static final Type ORGANIZATION = new TypeToken<List<Organization>>() {
   }.getType();
 
-
   @Autowired
   private PortalDBPropertySource portalDBPropertySource;
-
 
   @Override
   public List<RefreshablePropertySource> getRefreshablePropertySources() {
@@ -102,7 +100,7 @@ public class PortalConfig extends RefreshableConfig {
 
     String[] emergencyPublishSupportedEnvs = getArrayProperty("emergencyPublish.supported.envs", new String[0]);
 
-    for (String supportedEnv: emergencyPublishSupportedEnvs) {
+    for (String supportedEnv : emergencyPublishSupportedEnvs) {
       if (Objects.equals(targetEnv, supportedEnv.toUpperCase().trim())) {
         return true;
       }
@@ -151,6 +149,14 @@ public class PortalConfig extends RefreshableConfig {
 
   public String emailGrayRulesModuleTemplate() {
     return getValue("email.template.release.module.rules", "");
+  }
+
+  public String wikiAddress() {
+    return getValue("wiki.address", "https://github.com/ctripcorp/apollo/wiki");
+  }
+
+  public boolean canAppAdminCreatePrivateNamespace() {
+    return getBooleanProperty("admin.createPrivateNamespace.switch", true);
   }
 
   /***

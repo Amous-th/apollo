@@ -1,4 +1,4 @@
-appUtil.service('AppUtil', ['toastr', '$window', function (toastr, $window) {
+appUtil.service('AppUtil', ['toastr', '$window', '$q', function (toastr, $window, $q) {
 
     function parseErrorMsg(response) {
         if (response.status == -1) {
@@ -10,9 +10,31 @@ appUtil.service('AppUtil', ['toastr', '$window', function (toastr, $window) {
         }
         return msg;
     }
+
+    function ajax(resource, requestParams, requestBody) {
+        var d = $q.defer();
+        if (requestBody) {
+            resource(requestParams, requestBody, function (result) {
+                         d.resolve(result);
+                     },
+                     function (result) {
+                         d.reject(result);
+                     });
+        } else {
+            resource(requestParams, function (result) {
+                         d.resolve(result);
+                     },
+                     function (result) {
+                         d.reject(result);
+                     });
+        }
+
+        return d.promise;
+    }
+    
     return {
         errorMsg: parseErrorMsg,
-        
+        ajax: ajax,
         showErrorMsg: function (response, title) {
             toastr.error(parseErrorMsg(response), title);
         },
@@ -38,7 +60,7 @@ appUtil.service('AppUtil', ['toastr', '$window', function (toastr, $window) {
             var result = {};
             params.forEach(function (param) {
                 var kv = param.split("=");
-                result[kv[0]] = kv[1];
+                result[kv[0]] = decodeURIComponent(kv[1]);
             });
             return result;
         },
